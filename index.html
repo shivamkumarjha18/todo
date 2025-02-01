@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    #taskInput {
+      padding: 10px;
+      width: 250px;
+    }
+    #addBtn {
+      padding: 10px;
+      margin-left: 10px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #fff;
+      padding: 10px;
+      margin: 5px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: darkred;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: grey;
+    }
+  </style>
+</head>
+<body>
+  <h1>To-Do List</h1>
+  
+  <!-- Input for task -->
+  <input type="text" id="taskInput" placeholder="Add a new task" />
+  <button id="addBtn">Add Task</button>
+  
+  <!-- List of tasks -->
+  <ul id="taskList"></ul>
+
+  <script>
+    // Get elements
+    const taskInput = document.getElementById('taskInput');
+    const addBtn = document.getElementById('addBtn');
+    const taskList = document.getElementById('taskList');
+
+    // Add Task function
+    function addTask() {
+      const taskText = taskInput.value.trim();
+      
+      if (taskText !== '') {
+        // Create a new li element for the task
+        const li = document.createElement('li');
+        
+        // Create a checkbox for the task
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+
+        // Create a span for the task text
+        const span = document.createElement('span');
+        span.textContent = taskText;
+
+        // Create a delete button for the task
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        
+        // Add click event to delete button
+        deleteBtn.addEventListener('click', () => {
+          li.remove();  // Remove the task from the list
+        });
+
+        // Add event to mark task as completed when checkbox is checked/unchecked
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            span.classList.add('completed');  // Strike-through the text
+          } else {
+            span.classList.remove('completed');  // Remove strike-through
+          }
+        });
+
+        // Append checkbox, span, and delete button to the li element
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(deleteBtn);
+
+        // Append the new li to the task list
+        taskList.appendChild(li);
+
+        // Clear input field
+        taskInput.value = '';
+      }
+    }
+
+    // Event listener for Add Task button
+    addBtn.addEventListener('click', addTask);
+
+    // Optional: Allow pressing 'Enter' to add a task
+    taskInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addTask();
+      }
+    });
+  </script>
+</body>
+</html>
+
